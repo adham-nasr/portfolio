@@ -1,0 +1,447 @@
+[
+  {
+    "id": "illma",
+    "title": "Illma",
+    "tagline": "A learning platform for personalised software-engineering education, built on an event-driven AWS serverless backend.",
+    "category": "Cloud",
+    "categories": [
+      "Cloud",
+      "Backend"
+    ],
+    "period": "Jan 2026 – Jul 2026",
+    "role": "Backend & Infrastructure Engineer",
+    "org": "ITI — Graduation Project",
+    "platforms": "Web · AWS Serverless",
+    "cardTools": [
+      "NestJS",
+      "AWS Lambda",
+      "DynamoDB",
+      "AWS SAM"
+    ],
+    "image": "assets/ilma/ilma.png",
+    "coverImage": "assets/ilma/ilma.png",
+    "summary": [
+      "Illma generates personalised software-engineering roadmaps. The hard part was never the UI — it was ingesting, transforming and persisting roadmap data from many sources without turning the API into a blocking, brittle pipeline.",
+      "I designed the backend around event-driven communication, asynchronous processing and decoupled services so that ingestion, transformation and persistence could scale and fail independently."
+    ],
+    "decisions": [
+      "<strong>Event-driven over request/response.</strong> Roadmap ingestion is bursty and slow, so API Gateway returns immediately while EventBridge fans events out and SQS buffers the work. The client never waits on an ETL job.",
+      "<strong>SQS as a shock absorber.</strong> Each processing stage pulls at its own pace, which decouples producer throughput from consumer capacity and gives failing batches somewhere to retry instead of vanishing.",
+      "<strong>Deliberate storage split.</strong> DynamoDB holds roadmap nodes with known, query-first access patterns; MongoDB Atlas holds the looser content documents. Two databases, two clearly different shapes of data.",
+      "<strong>Infrastructure as code from day one.</strong> The whole stack — Lambda, EventBridge rules, SQS queues, IAM policies, CloudWatch logging — is declared in AWS SAM, so environments are reproducible and reviewable.",
+      "<strong>LocalStack for local parity.</strong> The full event pipeline runs locally against emulated AWS services, which means no cloud spend and no \"works on my machine\" gap during development."
+    ],
+    "architecture": "Ingestion starts at API Gateway, which publishes to EventBridge. Rules route events onto SQS queues, and Lambda consumers handle each stage — fetch, normalise, enrich, persist. S3 stores raw source payloads and generated artefacts, DynamoDB holds the roadmap graph, and MongoDB Atlas holds content documents. CloudWatch captures structured logs across every Lambda.",
+    "screenshots": [
+      {
+        "label": "Architecture diagram",
+        "src": "assets/ilma/archv3.png"
+      },
+      {
+        "label": "Roadmap graph view",
+        "src": "assets/ilma/m.jpg"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Runtime & Services",
+        "items": [
+          "NestJS",
+          "AWS Lambda",
+          "API Gateway",
+          "EventBridge",
+          "SQS",
+          "S3"
+        ]
+      },
+      {
+        "label": "Data",
+        "items": [
+          "DynamoDB",
+          "MongoDB Atlas"
+        ]
+      },
+      {
+        "label": "Infrastructure",
+        "items": [
+          "AWS SAM",
+          "IAM",
+          "CloudWatch",
+          "LocalStack"
+        ]
+      }
+    ],
+    "links": {
+      "source": "https://github.com/adham-nasr/roadmap"
+    }
+  },
+  {
+    "id": "closet-fyi",
+    "title": "Closet.fyi",
+    "tagline": "A cross-platform digital wardrobe organiser that pairs a React Native client with Django REST APIs and containerised computer-vision models.",
+    "category": "Mobile",
+    "categories": [
+      "Mobile",
+      "Backend"
+    ],
+    "period": "Nov 2022 – Oct 2023",
+    "role": "Software Engineer",
+    "org": "bld.ai",
+    "platforms": "iOS · Android · Web API",
+    "cardTools": [
+      "React Native",
+      "Django",
+      "Docker",
+      "Redis"
+    ],
+    "image": "assets/closet/closet.png",
+    "coverImage": "assets/closet/closet.png",
+    "summary": [
+      "Closet.fyi lets people catalogue, organise and combine their wardrobe. It shipped with an AI layer that classifies and tags clothing, a mobile client handling complex state, and a Django backend serving it all.",
+      "The most interesting work was operational: a production memory crash forced a rethink of how the AI models were deployed alongside the API."
+    ],
+    "decisions": [
+      "<strong>Decoupled the AI models into separate containers.</strong> The production memory crash traced back to computer-vision models sharing a process with the API. Moving them out gave each workload its own memory ceiling and made the crash impossible by construction.",
+      "<strong>Shared Docker volume for file exchange.</strong> Instead of re-uploading images across service boundaries, containers read and write to a shared volume — cheap, fast, and it keeps the transfer off the network.",
+      "<strong>Redis for inter-container coordination.</strong> Lightweight messages signal job completion between the API and the model containers, so neither service needs to poll or block.",
+      "<strong>Redux for genuinely complex state.</strong> Wardrobe items, outfits, filters and AI results intersect across screens — Redux made those transitions predictable instead of a prop-drilling maze.",
+      "<strong>Reusable React Native components.</strong> A shared component layer cut the cost of every subsequent feature and kept the iOS and Android experiences consistent.",
+      "<strong>Quality as a habit.</strong> DRF endpoints backed by unit tests and code review, plus Keras for training and deploying the vision models."
+    ],
+    "architecture": "A React Native client talks to Django REST Framework APIs backed by PostgreSQL. AI inference runs in dedicated Docker containers that share a volume with the API for image exchange and communicate progress over Redis. Redux manages client-side state across the wardrobe, outfit and AI-result screens.",
+    "screenshots": [
+      {
+        "label": "Wardrobe grid screen",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Wardrobe+grid+screen"
+      },
+      {
+        "label": "AI item classification",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=AI+item+classification"
+      },
+      {
+        "label": "Outfit builder",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Outfit+builder"
+      },
+      {
+        "label": "Docker container topology",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Docker+container+topology"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Client",
+        "items": [
+          "React Native",
+          "ReactJS",
+          "Redux"
+        ]
+      },
+      {
+        "label": "Backend",
+        "items": [
+          "Django",
+          "Django REST Framework",
+          "Redis"
+        ]
+      },
+      {
+        "label": "Infrastructure",
+        "items": [
+          "Docker",
+          "PostgreSQL"
+        ]
+      },
+      {
+        "label": "Machine Learning",
+        "items": [
+          "Keras",
+          "Computer Vision"
+        ]
+      }
+    ],
+    "links": {
+      "store": "https://apps.apple.com/us/app/closet-fyi/id6446917981"
+    }
+  },
+  {
+    "id": "military-digitalization",
+    "title": "Military Unit Digitalization",
+    "tagline": "A document-workflow web application that replaced a paper process and cut monthly printing costs by roughly 4,000 EGP.",
+    "category": "Web",
+    "categories": [
+      "Web"
+    ],
+    "period": "Military service",
+    "role": "Full Stack Developer",
+    "org": "Military Unit",
+    "platforms": "Web",
+    "cardTools": [
+      "Django",
+      "ReactJS",
+      "Context API"
+    ],
+    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=Military+Unit+Digitalization",
+    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=Military+Unit+Digitalization",
+    "summary": [
+      "Document workflows in the unit ran entirely on paper — slow to route, expensive to reproduce, and impossible to search. I designed and built a web application to move the whole process digital.",
+      "Beyond the cost saving, the real win was traceability: documents could be routed, tracked and retrieved instead of physically chased."
+    ],
+    "decisions": [
+      "<strong>Global state with Context API and reducers.</strong> Document state is shared across routing, review and archive views. Context plus reducers kept that shared state in one predictable place without pulling in a heavier state library.",
+      "<strong>Django for the document model.</strong> Relational data with clear ownership and routing rules — a natural fit for Django's ORM and admin.",
+      "<strong>Measured outcome.</strong> Paperwork costs dropped by roughly 4,000 per month, which was the number that justified the build."
+    ],
+    "architecture": "A React frontend handles document routing, review and archive views, with Context API and reducers managing shared state. Django serves the document model and workflow logic.",
+    "screenshots": [
+      {
+        "label": "Document dashboard",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Document+dashboard"
+      },
+      {
+        "label": "Routing & approval flow",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Routing+and+approval+flow"
+      },
+      {
+        "label": "Archive search",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Archive+search"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Frontend",
+        "items": [
+          "ReactJS",
+          "Context API",
+          "Reducers"
+        ]
+      },
+      {
+        "label": "Backend",
+        "items": [
+          "Django"
+        ]
+      }
+    ],
+    "links": {
+      "live": "https://faxes.netlify.app/"
+    }
+  },
+  {
+    "id": "quiz-app",
+    "title": "Software Engineering Quiz App",
+    "tagline": "An interview-prep quiz app for mobile, built around aggressive server-state caching and offline-first local persistence.",
+    "category": "Mobile",
+    "categories": [
+      "Mobile",
+      "Backend"
+    ],
+    "period": "Personal project",
+    "role": "Full Stack Developer",
+    "org": "Independent",
+    "platforms": "iOS · Android · REST API",
+    "cardTools": [
+      "React Native",
+      "TypeScript",
+      "TanStack Query",
+      "Express"
+    ],
+    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=SWE+Quiz+App",
+    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=SWE+Quiz+App",
+    "summary": [
+      "A mobile quiz app for software-engineering interview preparation. The design goal was simple: the app should feel instant and keep working when the network doesn't.",
+      "That pushed most of the interesting work into state management — deciding what lives on the server, what lives on the device, and how the two stay in sync."
+    ],
+    "decisions": [
+      "<strong>TanStack Query for server state.</strong> Treating server data as a cache rather than component state removed a whole category of manual loading and refetch logic.",
+      "<strong>Local persistence for offline use.</strong> Quiz progress survives app restarts and works without connectivity, which matters for an app people open on commutes.",
+      "<strong>Express REST API written for readability.</strong> Clean-code principles applied deliberately — small handlers, clear separation of concerns, no clever abstractions.",
+      "<strong>TypeScript across the stack.</strong> Shared types between the client and the API meant contract changes surfaced at compile time instead of in production."
+    ],
+    "architecture": "A React Native client (TypeScript) consumes an Express REST API backed by MongoDB. TanStack Query owns server state with local persistence layered underneath, so cached quiz data and progress remain available offline.",
+    "screenshots": [
+      {
+        "label": "Quiz question screen",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Quiz+question+screen"
+      },
+      {
+        "label": "Results & progress",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Results+and+progress"
+      },
+      {
+        "label": "API schema",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=API+schema"
+      },
+      {
+        "label": "Cache & persistence flow",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Cache+and+persistence+flow"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Client",
+        "items": [
+          "React Native",
+          "TypeScript",
+          "TanStack Query"
+        ]
+      },
+      {
+        "label": "Backend",
+        "items": [
+          "Node.js",
+          "Express"
+        ]
+      },
+      {
+        "label": "Data",
+        "items": [
+          "MongoDB"
+        ]
+      }
+    ],
+    "links": {}
+  },
+  {
+    "id": "queuing-system",
+    "title": "Queuing System Application",
+    "tagline": "A real-time desktop application for guest queue management, with a manager interface for admitting and tracking waiting guests.",
+    "category": "Realtime",
+    "categories": [
+      "Realtime",
+      "Web"
+    ],
+    "period": "Personal project",
+    "role": "Full Stack Developer",
+    "org": "Independent",
+    "platforms": "Desktop",
+    "cardTools": [
+      "Flutter",
+      "Flask",
+      "SocketIO",
+      "QtQuick"
+    ],
+    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=Queuing+System",
+    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=Queuing+System",
+    "summary": [
+      "A queue-management system where the state of the room changes constantly and every screen needs to agree on it instantly. Built as a real-time desktop application with a dedicated manager interface.",
+      "The core challenge was keeping multiple clients synchronised without polling."
+    ],
+    "decisions": [
+      "<strong>SocketIO for push, not polling.</strong> Queue state is pushed to every connected client the moment it changes, so the guest display and the manager console never disagree.",
+      "<strong>Separate manager interface.</strong> Admitting, reordering and managing waiting guests are privileged operations, so the manager console is a distinct surface from the guest-facing view.",
+      "<strong>Flask + QtQuick for the desktop shell.</strong> A lightweight Python backend paired with QtQuick for a responsive native desktop client."
+    ],
+    "architecture": "A Flask backend holds queue state and broadcasts changes over SocketIO. Flutter and QtQuick clients subscribe to those events, with a dedicated manager interface for admitting and managing waiting guests.",
+    "screenshots": [
+      {
+        "label": "Manager console",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Manager+console"
+      },
+      {
+        "label": "Guest display",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Guest+display"
+      },
+      {
+        "label": "Real-time event flow",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Real-time+event+flow"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Backend",
+        "items": [
+          "Flask",
+          "SocketIO"
+        ]
+      },
+      {
+        "label": "Clients",
+        "items": [
+          "Flutter",
+          "QtQuick"
+        ]
+      }
+    ],
+    "links": {}
+  },
+  {
+    "id": "music-platform",
+    "title": "Music Platform Backend",
+    "tagline": "Backend features and data modelling for a music streaming platform, built with Django and Django REST Framework.",
+    "category": "Backend",
+    "categories": [
+      "Backend"
+    ],
+    "period": "Aug 2022 – Nov 2022",
+    "role": "Software Engineer Intern",
+    "org": "bld.ai",
+    "platforms": "Web API · Web",
+    "cardTools": [
+      "Django",
+      "DRF",
+      "Pytest",
+      "ReactJS"
+    ],
+    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=Music+Platform",
+    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=Music+Platform",
+    "summary": [
+      "My internship at bld.ai split across two products: backend work on a music platform and frontend work on a Udemy-style learning clone.",
+      "The backend work was where I learned to think in schemas and permissions before writing endpoints."
+    ],
+    "decisions": [
+      "<strong>Schema first.</strong> Designed the database model for users, tracks and playlists before touching the API — relationships and constraints decided up front rather than discovered later.",
+      "<strong>Tests for auth and RBAC.</strong> Authentication and role-based access control are where silent bugs hurt most, so they got Pytest coverage from the start.",
+      "<strong>Django REST Framework for the API layer.</strong> Serializers and viewsets kept the endpoint surface consistent and reviewable.",
+      "<strong>Frontend work on a Udemy clone.</strong> Built ReactJS features for a separate learning product, which gave me both sides of the API contract."
+    ],
+    "architecture": "Django and Django REST Framework serve the music platform API, with a relational schema covering users, tracks and playlists. Pytest covers authentication and role-based access control. A separate ReactJS frontend serves the Udemy-style learning product.",
+    "screenshots": [
+      {
+        "label": "API endpoint map",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=API+endpoint+map"
+      },
+      {
+        "label": "Data schema — users, tracks, playlists",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Data+schema"
+      },
+      {
+        "label": "Pytest coverage for auth",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Pytest+coverage+for+auth"
+      },
+      {
+        "label": "ReactJS learning UI",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
+      },
+      {
+        "label": "Pytest coverage for auth",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
+      },
+      {
+        "label": "Data schema — users, tracks, playlists",
+        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
+      }
+    ],
+    "stack": [
+      {
+        "label": "Backend",
+        "items": [
+          "Django",
+          "Django REST Framework"
+        ]
+      },
+      {
+        "label": "Frontend",
+        "items": [
+          "ReactJS"
+        ]
+      },
+      {
+        "label": "Testing",
+        "items": [
+          "Pytest"
+        ]
+      }
+    ],
+    "links": {}
+  }
+]

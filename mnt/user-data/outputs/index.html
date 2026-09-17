@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adham Nasr — Full Stack Software Engineer</title>
+  <meta name="description" content="Adham Nasr — full stack software engineer building serverless backends, mobile apps and the interfaces that hold them together." />
+  <meta name="theme-color" content="#F5F2EC" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper:   '#F5F2EC',
+            surface: '#FFFCF7',
+            ink:     '#17160F',
+            muted:   '#726D5F',
+            line:    '#E3DCCF',
+            clay:    '#BC5B37'
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          maxWidth: { shell: '1180px' }
+        }
+      }
+    };
+  </script>
+
+  <!-- Project styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header" class="site-header">
+    <div class="mx-auto flex h-16 max-w-shell items-center justify-between px-5 sm:px-8">
+      <a href="#top" class="flex items-center gap-2.5" aria-label="Adham Nasr — home">
+        <span class="brand-mark">AN</span>
+        <span class="hidden text-sm font-medium tracking-tight sm:block">Adham Nasr</span>
+      </a>
+
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link" href="#toolkit">Toolkit</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn--sm btn--ink" href="mailto:adham2042000@gmail.com">Get in touch</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ======================= HERO ======================= -->
+    <section class="hero">
+      <div class="mx-auto max-w-shell px-5 sm:px-8">
+        <div class="grid items-end gap-10 lg:grid-cols-12 lg:gap-14">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">Full Stack Software Engineer · Alexandria, Egypt</p>
+            <h1 class="hero-title">
+              I build end-to-end products — <em>serverless backends</em>, mobile apps,
+              and the interfaces that hold them together.
+            </h1>
+          </div>
+
+          <div class="lg:col-span-5">
+            <p class="lede">
+              1+ years shipping production web and mobile software. I like the unglamorous
+              parts: event pipelines, data models, container boundaries, and the decisions
+              that keep a system alive under load.
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#work" class="btn btn--ink">See the work</a>
+              <a href="https://github.com/adham-nasr/" target="_blank" rel="noopener" class="btn btn--outline">
+                GitHub
+                <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+            </div>
+
+            <dl class="stats">
+              <div><dt>1+</dt><dd>Years shipping</dd></div>
+              <div><dt>3</dt><dd>Platforms</dd></div>
+              <div><dt>2×</dt><dd>EOI bronze</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= WORK GRID ======================= -->
+    <section id="work" class="work">
+      <div class="mx-auto max-w-shell px-5 sm:px-8">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Selected work</p>
+            <h2 class="section-title">Case studies, not job titles.</h2>
+          </div>
+          <div id="filters" class="filters" aria-label="Filter projects"></div>
+        </div>
+
+        <!-- Rendered by js/main.js from js/data.js -->
+        <div id="project-grid" class="project-grid"></div>
+      </div>
+    </section>
+
+    <!-- ======================= TOOLKIT ======================= -->
+    <section id="toolkit" class="section">
+      <div class="mx-auto max-w-shell px-5 sm:px-8">
+        <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div class="lg:col-span-4">
+            <p class="eyebrow">Toolkit</p>
+            <h2 class="section-title">What I reach for.</h2>
+            <p class="lede mt-4">
+              I pick tools by the shape of the problem — typed clients for mobile,
+              event-driven services for anything bursty, and boring relational databases
+              whenever the data deserves one.
+            </p>
+          </div>
+
+          <div class="lg:col-span-8">
+            <div class="toolkit-grid">
+              <div class="toolkit-group">
+                <h3>Frontend</h3>
+                <ul>
+                  <li>React.js</li>
+                  <li>React Native</li>
+                  <li>TypeScript</li>
+                  <li>JavaScript</li>
+                  <li>HTML5 &amp; CSS3</li>
+                </ul>
+              </div>
+
+              <div class="toolkit-group">
+                <h3>Backend</h3>
+                <ul>
+                  <li>Python</li>
+                  <li>Django &amp; DRF</li>
+                  <li>Node.js</li>
+                  <li>NestJS</li>
+                  <li>Express</li>
+                  <li>Redis</li>
+                  <li>C / C++</li>
+                </ul>
+              </div>
+
+              <div class="toolkit-group">
+                <h3>Cloud &amp; DevOps</h3>
+                <ul>
+                  <li>AWS Lambda</li>
+                  <li>EventBridge &amp; SQS</li>
+                  <li>AWS SAM</li>
+                  <li>LocalStack</li>
+                  <li>Docker</li>
+                  <li>Git</li>
+                </ul>
+              </div>
+
+              <div class="toolkit-group">
+                <h3>Data</h3>
+                <ul>
+                  <li>PostgreSQL</li>
+                  <li>MongoDB / Atlas</li>
+                  <li>DynamoDB</li>
+                  <li>S3</li>
+                </ul>
+              </div>
+
+              <div class="toolkit-group">
+                <h3>Testing &amp; Quality</h3>
+                <ul>
+                  <li>Pytest</li>
+                  <li>Unit testing</li>
+                  <li>Code review</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= ABOUT ======================= -->
+    <section id="about" class="section">
+      <div class="mx-auto max-w-shell px-5 sm:px-8">
+        <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div class="lg:col-span-5">
+            <p class="eyebrow">Background</p>
+            <h2 class="section-title">Engineer by training, builder by habit.</h2>
+            <p class="lede mt-4">
+              Computer Engineering graduate from Alexandria University, two-time Egyptian
+              Olympiad in Informatics medalist, and someone who has been writing code
+              competitively long enough to care about the difference between working and correct.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="about-grid">
+              <article class="about-card">
+                <span class="about-card__kicker">Education</span>
+                <h3>BSc Computer Engineering</h3>
+                <p>Faculty of Engineering, Alexandria University — Sept 2018 to June 2023.</p>
+              </article>
+
+              <article class="about-card">
+                <span class="about-card__kicker">Recognition</span>
+                <h3>EOI Bronze Medalist</h3>
+                <p>Egyptian Olympiad in Informatics — bronze in 2015 and again in 2017.</p>
+              </article>
+
+              <article class="about-card">
+                <span class="about-card__kicker">Training</span>
+                <h3>ITI — MERN Intensive</h3>
+                <p>Fullstack Web Development Intensive Training Program, Jan – Jul 2026.</p>
+              </article>
+
+              <article class="about-card">
+                <span class="about-card__kicker">Status</span>
+                <h3>Military service completed</h3>
+                <p>Available immediately for full-stack, backend or mobile engineering roles.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CONTACT ======================= -->
+    <section id="contact" class="section section--contact">
+      <div class="mx-auto max-w-shell px-5 sm:px-8">
+        <div class="contact-card">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2 class="contact-title">Let's build something that ships.</h2>
+            <p class="lede mt-4">
+              Open to full-stack, backend and mobile roles — and always happy to talk
+              about event-driven architecture.
+            </p>
+          </div>
+
+          <div class="contact-actions">
+            <a class="btn btn--ink" href="mailto:adham2042000@gmail.com">adham2042000@gmail.com</a>
+            <div class="contact-links">
+              <a href="https://www.linkedin.com/in/adham-nasr-sw/" target="_blank" rel="noopener">LinkedIn</a>
+              <span aria-hidden="true">·</span>
+              <a href="https://github.com/adham-nasr/" target="_blank" rel="noopener">GitHub</a>
+              <span aria-hidden="true">·</span>
+              <a href="tel:+201143103800">+20 114 310 3800</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="site-footer">
+    <div class="mx-auto flex max-w-shell flex-col gap-3 px-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <p>© <span id="year">2026</span> Adham Nasr — Alexandria, Egypt</p>
+      <p>Hand-built with HTML, Tailwind CSS &amp; vanilla JavaScript.</p>
+    </div>
+  </footer>
+
+  <!-- ======================= MODAL ======================= -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-modal-close></div>
+
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+      <button class="modal__close" type="button" data-modal-close aria-label="Close case study">
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+
+      <!-- Case study injected by js/main.js -->
+      <div class="modal__scroll" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ======================= SCRIPTS ======================= -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

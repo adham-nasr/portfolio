@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio admin — Adham Nasr</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F5F2EC; --surface:#FFFCF7; --ink:#17160F; --muted:#726D5F;
+    --line:#E3DCCF; --clay:#BC5B37; --radius:14px;
+    --font-display:'Fraunces',Georgia,serif; --font-sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);line-height:1.5;}
+  header{position:sticky;top:0;z-index:10;background:rgba(245,242,236,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+  header h1{margin:0;font-family:var(--font-display);font-weight:500;font-size:1.25rem;}
+  header .sub{font-size:.8rem;color:var(--muted);}
+  header a{color:var(--clay);text-decoration:none;font-size:.85rem;font-weight:500;}
+  .wrap{max-width:1100px;margin:0 auto;padding:1.75rem 1.5rem 4rem;}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:.85rem;font-weight:500;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:#c9c1b0;}
+  .btn--primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .btn--primary:hover{background:#000;}
+  .btn--danger{color:#a33;border-color:#e7c9c1;}
+  .btn--danger:hover{background:#fbeae6;}
+  .btn--ghost{background:transparent;border-color:transparent;padding:.4rem .6rem;}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+
+  #list{display:flex;flex-direction:column;gap:.75rem;}
+  .row{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;}
+  .row img{width:64px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex:none;background:var(--paper);}
+  .row .info{flex:1;min-width:0;}
+  .row .info strong{font-family:var(--font-display);font-weight:500;font-size:1rem;}
+  .row .info span{display:block;font-size:.78rem;color:var(--muted);margin-top:.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .pill{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);border:1px solid var(--line);border-radius:999px;padding:.2rem .55rem;flex:none;}
+  .row .actions{display:flex;gap:.25rem;flex:none;}
+  .empty{padding:3rem 1rem;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--radius);}
+
+  dialog{border:none;border-radius:18px;padding:0;width:min(720px,92vw);max-height:88vh;box-shadow:0 40px 100px -30px rgba(23,22,15,.45);}
+  dialog::backdrop{background:rgba(23,22,15,.5);backdrop-filter:blur(4px);}
+  #form-panel{display:flex;flex-direction:column;max-height:88vh;}
+  #form-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+  #form-header h2{margin:0;font-family:var(--font-display);font-weight:500;font-size:1.15rem;}
+  #form-body{padding:1.25rem 1.5rem;overflow-y:auto;display:flex;flex-direction:column;gap:1.1rem;}
+  #form-footer{padding:1rem 1.5rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+  .field label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
+  .field .hint{font-size:.72rem;color:#9b9484;margin-top:.3rem;}
+  input[type=text], input[type=url], textarea{
+    width:100%;padding:.6rem .7rem;border:1px solid var(--line);border-radius:9px;
+    background:var(--paper);color:var(--ink);font-family:inherit;font-size:.875rem;resize:vertical;
+  }
+  input:focus, textarea:focus{outline:none;border-color:var(--clay);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+  @media (max-width:560px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+  .repeat-row{display:flex;gap:.5rem;margin-bottom:.5rem;align-items:flex-start;}
+  .repeat-row input{flex:1;}
+  .repeat-row .btn--ghost{margin-top:.05rem;}
+  .subgroup{border:1px solid var(--line);border-radius:10px;padding:.75rem;margin-bottom:.5rem;background:var(--paper);}
+  .subgroup .repeat-row:last-child{margin-bottom:0;}
+
+  #toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--paper);padding:.65rem 1.1rem;border-radius:999px;font-size:.85rem;opacity:0;pointer-events:none;transition:.25s;z-index:200;}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  #toast.error{background:#a33;}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Portfolio admin</h1>
+    <div class="sub">Editing <code>data/projects.json</code> — regenerates <code>js/data.js</code> on every save.</div>
+  </div>
+  <a href="/" target="_blank" rel="noopener">View live site →</a>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <span class="sub" id="count"></span>
+    <button class="btn btn--primary" id="new-btn">+ New project</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<dialog id="form-dialog">
+  <form id="form-panel" method="dialog">
+    <div id="form-header">
+      <h2 id="form-title">New project</h2>
+      <button type="button" class="btn btn--ghost" id="close-btn" aria-label="Close">✕</button>
+    </div>
+
+    <div id="form-body">
+      <div class="field">
+        <label>Title *</label>
+        <input type="text" id="f-title" required />
+      </div>
+
+      <div class="field">
+        <label>Tagline (one or two sentences shown on the card)</label>
+        <textarea id="f-tagline" rows="2"></textarea>
+      </div>
+
+      <div class="grid3">
+        <div class="field">
+          <label>Primary category</label>
+          <input type="text" id="f-category" placeholder="e.g. Cloud" />
+        </div>
+        <div class="field">
+          <label>All categories (comma separated)</label>
+          <input type="text" id="f-categories" placeholder="Cloud, Backend" />
+        </div>
+        <div class="field">
+          <label>Period</label>
+          <input type="text" id="f-period" placeholder="Jan 2026 – Jul 2026" />
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="field">
+          <label>Role</label>
+          <input type="text" id="f-role" />
+        </div>
+        <div class="field">
+          <label>Org / context</label>
+          <input type="text" id="f-org" />
+        </div>
+        <div class="field">
+          <label>Platforms</label>
+          <input type="text" id="f-platforms" placeholder="Web · AWS Serverless" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Card tools (comma separated, up to ~4 shown)</label>
+        <input type="text" id="f-cardtools" placeholder="NestJS, AWS Lambda, DynamoDB" />
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Card thumbnail image URL</label>
+          <input type="url" id="f-image" placeholder="images/illma.png" />
+          <div class="hint">16:10 works best. A relative path like <code>images/illma.png</code> is fine once you drop the file in.</div>
+        </div>
+        <div class="field">
+          <label>Modal cover image URL</label>
+          <input type="url" id="f-coverimage" placeholder="images/illma-cover.png" />
+          <div class="hint">16:8 works best.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Overview (one paragraph per line)</label>
+        <textarea id="f-summary" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Engineering decisions (one per line — <code>&lt;strong&gt;</code> allowed for bold)</label>
+        <textarea id="f-decisions" rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Architecture (single paragraph)</label>
+        <textarea id="f-architecture" rows="2"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Screenshots</label>
+        <div id="shots-list"></div>
+        <button type="button" class="btn btn--ghost" id="add-shot">+ Add screenshot</button>
+      </div>
+
+      <div class="field">
+        <label>Stack (grouped chips shown in the modal)</label>
+        <div id="stack-list"></div>
+        <button type="button" class="btn btn--ghost" id="add-stack">+ Add group</button>
+      </div>
+
+      <div class="grid3">
+        <div class="field">
+          <label>Live demo URL</label>
+          <input type="url" id="f-link-live" />
+        </div>
+        <div class="field">
+          <label>App Store URL</label>
+          <input type="url" id="f-link-store" />
+        </div>
+        <div class="field">
+          <label>Source code URL</label>
+          <input type="url" id="f-link-source" />
+        </div>
+      </div>
+    </div>
+
+    <div id="form-footer">
+      <span class="sub" id="form-error" style="color:#a33;"></span>
+      <div style="display:flex;gap:.5rem;">
+        <button type="button" class="btn" id="cancel-btn">Cancel</button>
+        <button type="button" class="btn btn--primary" id="save-btn">Save</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  const listEl = document.getElementById("list");
+  const countEl = document.getElementById("count");
+  const dialog = document.getElementById("form-dialog");
+  const formTitle = document.getElementById("form-title");
+  const formError = document.getElementById("form-error");
+  const shotsList = document.getElementById("shots-list");
+  const stackList = document.getElementById("stack-list");
+  const toastEl = document.getElementById("toast");
+
+  let projects = [];
+  let editingId = null; // null = creating new
+
+  const $ = (id) => document.getElementById(id);
+
+  function toast(msg, isError) {
+    toastEl.textContent = msg;
+    toastEl.className = isError ? "show error" : "show";
+    setTimeout(() => (toastEl.className = ""), 2200);
+  }
+
+  /* ---------- API ---------- */
+  async function api(path, opts) {
+    const res = await fetch(path, {
+      headers: { "Content-Type": "application/json" },
+      ...opts,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "Request failed");
+    return data;
+  }
+
+  async function loadProjects() {
+    projects = await api("/api/projects");
+    renderList();
+  }
+
+  /* ---------- List rendering ---------- */
+  function renderList() {
+    countEl.textContent = `${projects.length} project${projects.length === 1 ? "" : "s"}`;
+    if (!projects.length) {
+      listEl.innerHTML = `<div class="empty">No projects yet — click "New project" to add your first one.</div>`;
+      return;
+    }
+    listEl.innerHTML = projects
+      .map(
+        (p, i) => `
+        <div class="row" data-id="${escapeAttr(p.id)}">
+          <img src="${escapeAttr(p.image || "")}" alt="" onerror="this.style.visibility='hidden'" />
+          <div class="info">
+            <strong>${escapeHtml(p.title)}</strong>
+            <span>${escapeHtml(p.tagline || "")}</span>
+          </div>
+          <span class="pill">${escapeHtml(p.category || "—")}</span>
+          <div class="actions">
+            <button class="btn btn--ghost" data-action="up" ${i === 0 ? "disabled" : ""} title="Move up">↑</button>
+            <button class="btn btn--ghost" data-action="down" ${i === projects.length - 1 ? "disabled" : ""} title="Move down">↓</button>
+            <button class="btn btn--ghost" data-action="edit" title="Edit">Edit</button>
+            <button class="btn btn--ghost btn--danger" data-action="delete" title="Delete">Delete</button>
+          </div>
+        </div>`
+      )
+      .join("");
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  listEl.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const id = btn.closest(".row").dataset.id;
+    const action = btn.dataset.action;
+
+    if (action === "edit") return openForm(id);
+
+    if (action === "delete") {
+      const p = projects.find((x) => x.id === id);
+      if (!confirm(`Delete "${p.title}"? This can't be undone.`)) return;
+      try {
+        await api(`/api/projects/${encodeURIComponent(id)}`, { method: "DELETE" });
+        toast("Project deleted");
+        await loadProjects();
+      } catch (err) {
+        toast(err.message, true);
+      }
+    }
+
+    if (action === "up" || action === "down") {
+      try {
+        projects = await api(`/api/projects/${encodeURIComponent(id)}/move`, {
+          method: "PUT",
+          body: JSON.stringify({ direction: action }),
+        });
+        renderList();
+      } catch (err) {
+        toast(err.message, true);
+      }
+    }
+  });
+
+  /* ---------- Repeatable rows: screenshots ---------- */
+  function addShotRow(shot) {
+    shot = shot || { label: "", src: "" };
+    const row = document.createElement("div");
+    row.className = "subgroup";
+    row.innerHTML = `
+      <div class="repeat-row">
+        <input type="text" placeholder="Label (e.g. Architecture diagram)" class="shot-label" value="${escapeAttr(shot.label)}" />
+        <input type="text" placeholder="Image URL" class="shot-src" value="${escapeAttr(shot.src)}" />
+        <button type="button" class="btn btn--ghost remove-row" title="Remove">✕</button>
+      </div>`;
+    row.querySelector(".remove-row").addEventListener("click", () => row.remove());
+    shotsList.appendChild(row);
+  }
+
+  function readShots() {
+    return Array.from(shotsList.querySelectorAll(".subgroup")).map((row) => ({
+      label: row.querySelector(".shot-label").value.trim(),
+      src: row.querySelector(".shot-src").value.trim(),
+    })).filter((s) => s.label);
+  }
+
+  /* ---------- Repeatable rows: stack groups ---------- */
+  function addStackRow(group) {
+    group = group || { label: "", items: [] };
+    const row = document.createElement("div");
+    row.className = "subgroup";
+    row.innerHTML = `
+      <div class="repeat-row">
+        <input type="text" placeholder="Group label (e.g. Backend)" class="stack-label" value="${escapeAttr(group.label)}" style="flex:0 0 40%;" />
+        <input type="text" placeholder="Items, comma separated" class="stack-items" value="${escapeAttr((group.items || []).join(", "))}" />
+        <button type="button" class="btn btn--ghost remove-row" title="Remove">✕</button>
+      </div>`;
+    row.querySelector(".remove-row").addEventListener("click", () => row.remove());
+    stackList.appendChild(row);
+  }
+
+  function readStack() {
+    return Array.from(stackList.querySelectorAll(".subgroup")).map((row) => ({
+      label: row.querySelector(".stack-label").value.trim(),
+      items: row.querySelector(".stack-items").value.split(",").map((s) => s.trim()).filter(Boolean),
+    })).filter((s) => s.label);
+  }
+
+  /* ---------- Form open / close ---------- */
+  function openForm(id) {
+    editingId = id || null;
+    formError.textContent = "";
+    shotsList.innerHTML = "";
+    stackList.innerHTML = "";
+
+    const p = id ? projects.find((x) => x.id === id) : null;
+    formTitle.textContent = p ? `Edit — ${p.title}` : "New project";
+
+    $("f-title").value = p ? p.title : "";
+    $("f-tagline").value = p ? p.tagline : "";
+    $("f-category").value = p ? p.category : "";
+    $("f-categories").value = p ? (p.categories || []).join(", ") : "";
+    $("f-period").value = p ? p.period : "";
+    $("f-role").value = p ? p.role : "";
+    $("f-org").value = p ? p.org : "";
+    $("f-platforms").value = p ? p.platforms : "";
+    $("f-cardtools").value = p ? (p.cardTools || []).join(", ") : "";
+    $("f-image").value = p ? p.image : "";
+    $("f-coverimage").value = p ? p.coverImage : "";
+    $("f-summary").value = p ? (p.summary || []).join("\n") : "";
+    $("f-decisions").value = p ? (p.decisions || []).join("\n") : "";
+    $("f-architecture").value = p ? p.architecture : "";
+    $("f-link-live").value = p && p.links ? p.links.live || "" : "";
+    $("f-link-store").value = p && p.links ? p.links.store || "" : "";
+    $("f-link-source").value = p && p.links ? p.links.source || "" : "";
+
+    if (p && p.screenshots && p.screenshots.length) {
+      p.screenshots.forEach(addShotRow);
+    } else {
+      addShotRow();
+    }
+    if (p && p.stack && p.stack.length) {
+      p.stack.forEach(addStackRow);
+    } else {
+      addStackRow();
+    }
+
+    dialog.showModal();
+  }
+
+  function closeForm() {
+    dialog.close();
+  }
+
+  function collectForm() {
+    const splitLines = (v) => v.split("\n").map((s) => s.trim()).filter(Boolean);
+    const splitCommas = (v) => v.split(",").map((s) => s.trim()).filter(Boolean);
+    return {
+      title: $("f-title").value.trim(),
+      tagline: $("f-tagline").value.trim(),
+      category: $("f-category").value.trim(),
+      categories: splitCommas($("f-categories").value),
+      period: $("f-period").value.trim(),
+      role: $("f-role").value.trim(),
+      org: $("f-org").value.trim(),
+      platforms: $("f-platforms").value.trim(),
+      cardTools: splitCommas($("f-cardtools").value),
+      image: $("f-image").value.trim(),
+      coverImage: $("f-coverimage").value.trim(),
+      summary: splitLines($("f-summary").value),
+      decisions: splitLines($("f-decisions").value),
+      architecture: $("f-architecture").value.trim(),
+      screenshots: readShots(),
+      stack: readStack(),
+      links: {
+        live: $("f-link-live").value.trim(),
+        store: $("f-link-store").value.trim(),
+        source: $("f-link-source").value.trim(),
+      },
+    };
+  }
+
+  async function save() {
+    const payload = collectForm();
+    if (!payload.title) {
+      formError.textContent = "Title is required.";
+      return;
+    }
+    try {
+      if (editingId) {
+        await api(`/api/projects/${encodeURIComponent(editingId)}`, {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        });
+        toast("Project updated");
+      } else {
+        await api("/api/projects", { method: "POST", body: JSON.stringify(payload) });
+        toast("Project created");
+      }
+      closeForm();
+      await loadProjects();
+    } catch (err) {
+      formError.textContent = err.message;
+    }
+  }
+
+  /* ---------- Events ---------- */
+  $("new-btn").addEventListener("click", () => openForm(null));
+  $("close-btn").addEventListener("click", closeForm);
+  $("cancel-btn").addEventListener("click", closeForm);
+  $("save-btn").addEventListener("click", save);
+  $("add-shot").addEventListener("click", () => addShotRow());
+  $("add-stack").addEventListener("click", () => addStackRow());
+
+  loadProjects().catch((err) => toast(err.message, true));
+})();
+</script>
+</body>
+</html>
