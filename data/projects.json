@@ -6,7 +6,7 @@
     "category": "Cloud",
     "categories": [
       "Cloud",
-      "Backend"
+      "Web"
     ],
     "period": "Jan 2026 – Jul 2026",
     "role": "Backend & Infrastructure Engineer",
@@ -34,12 +34,12 @@
     "architecture": "Ingestion starts at API Gateway, which publishes to EventBridge. Rules route events onto SQS queues, and Lambda consumers handle each stage — fetch, normalise, enrich, persist. S3 stores raw source payloads and generated artefacts, DynamoDB holds the roadmap graph, and MongoDB Atlas holds content documents. CloudWatch captures structured logs across every Lambda.",
     "screenshots": [
       {
-        "label": "Architecture diagram",
-        "src": "assets/ilma/archv3.png"
+        "label": "Architecture diagram V2",
+        "src": "assets/ilma/archv2.png"
       },
       {
-        "label": "Roadmap graph view",
-        "src": "assets/ilma/m.jpg"
+        "label": "Roadmap graph view V3",
+        "src": "assets/ilma/archv3.png"
       }
     ],
     "stack": [
@@ -72,6 +72,7 @@
       }
     ],
     "links": {
+      "live": "https://ilma-frontend-ten.vercel.app/en",
       "source": "https://github.com/adham-nasr/roadmap"
     }
   },
@@ -81,8 +82,7 @@
     "tagline": "A cross-platform digital wardrobe organiser that pairs a React Native client with Django REST APIs and containerised computer-vision models.",
     "category": "Mobile",
     "categories": [
-      "Mobile",
-      "Backend"
+      "Mobile"
     ],
     "period": "Nov 2022 – Oct 2023",
     "role": "Software Engineer",
@@ -94,8 +94,8 @@
       "Docker",
       "Redis"
     ],
-    "image": "assets/closet/closet.png",
-    "coverImage": "assets/closet/closet.png",
+    "image": "assets/closet/background.jpg",
+    "coverImage": "assets/closet/background.jpg",
     "summary": [
       "Closet.fyi lets people catalogue, organise and combine their wardrobe. It shipped with an AI layer that classifies and tags clothing, a mobile client handling complex state, and a Django backend serving it all.",
       "The most interesting work was operational: a production memory crash forced a rethink of how the AI models were deployed alongside the API."
@@ -112,19 +112,19 @@
     "screenshots": [
       {
         "label": "Wardrobe grid screen",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Wardrobe+grid+screen"
+        "src": "assets/closet/home.jpg"
       },
       {
         "label": "AI item classification",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=AI+item+classification"
+        "src": "assets/closet/closet.jpg"
       },
       {
         "label": "Outfit builder",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Outfit+builder"
+        "src": "assets/closet/outfitGround.jpg"
       },
       {
         "label": "Docker container topology",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Docker+container+topology"
+        "src": "assets/closet/packingList.jpg"
       }
     ],
     "stack": [
@@ -180,8 +180,8 @@
       "ReactJS",
       "Context API"
     ],
-    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=Military+Unit+Digitalization",
-    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=Military+Unit+Digitalization",
+    "image": "assets/digitization/back.png",
+    "coverImage": "assets/digitization/back.png",
     "summary": [
       "Document workflows in the unit ran entirely on paper — slow to route, expensive to reproduce, and impossible to search. I designed and built a web application to move the whole process digital.",
       "Beyond the cost saving, the real win was traceability: documents could be routed, tracked and retrieved instead of physically chased."
@@ -195,15 +195,15 @@
     "screenshots": [
       {
         "label": "Document dashboard",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Document+dashboard"
+        "src": "assets/digitization/home.png"
       },
       {
         "label": "Routing & approval flow",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Routing+and+approval+flow"
+        "src": "assets/digitization/sign.png"
       },
       {
         "label": "Archive search",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Archive+search"
+        "src": "assets/digitization/history.png"
       }
     ],
     "stack": [
@@ -223,7 +223,7 @@
       }
     ],
     "links": {
-      "live": "https://faxes.netlify.app/"
+      "live": "https://faxes.vercel.app/"
     }
   },
   {
@@ -232,8 +232,7 @@
     "tagline": "An interview-prep quiz app for mobile, built around aggressive server-state caching and offline-first local persistence.",
     "category": "Mobile",
     "categories": [
-      "Mobile",
-      "Backend"
+      "Mobile"
     ],
     "period": "Personal project",
     "role": "Full Stack Developer",
@@ -245,8 +244,8 @@
       "TanStack Query",
       "Express"
     ],
-    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=SWE+Quiz+App",
-    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=SWE+Quiz+App",
+    "image": "assets/quiz/background.jpg",
+    "coverImage": "assets/quiz/background.jpg",
     "summary": [
       "A mobile quiz app for software-engineering interview preparation. The design goal was simple: the app should feel instant and keep working when the network doesn't.",
       "That pushed most of the interesting work into state management — deciding what lives on the server, what lives on the device, and how the two stay in sync."
@@ -261,19 +260,11 @@
     "screenshots": [
       {
         "label": "Quiz question screen",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Quiz+question+screen"
+        "src": "assets/quiz/practice.jpg"
       },
       {
-        "label": "Results & progress",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Results+and+progress"
-      },
-      {
-        "label": "API schema",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=API+schema"
-      },
-      {
-        "label": "Cache & persistence flow",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Cache+and+persistence+flow"
+        "label": "Quiz question screen",
+        "src": "assets/quiz/practice2.png"
       }
     ],
     "stack": [
@@ -307,8 +298,7 @@
     "tagline": "A real-time desktop application for guest queue management, with a manager interface for admitting and tracking waiting guests.",
     "category": "Realtime",
     "categories": [
-      "Realtime",
-      "Web"
+      "Desktop"
     ],
     "period": "Personal project",
     "role": "Full Stack Developer",
@@ -359,86 +349,6 @@
         "items": [
           "Flutter",
           "QtQuick"
-        ]
-      }
-    ],
-    "links": {}
-  },
-  {
-    "id": "music-platform",
-    "title": "Music Platform Backend",
-    "tagline": "Backend features and data modelling for a music streaming platform, built with Django and Django REST Framework.",
-    "category": "Backend",
-    "categories": [
-      "Backend"
-    ],
-    "period": "Aug 2022 – Nov 2022",
-    "role": "Software Engineer Intern",
-    "org": "bld.ai",
-    "platforms": "Web API · Web",
-    "cardTools": [
-      "Django",
-      "DRF",
-      "Pytest",
-      "ReactJS"
-    ],
-    "image": "https://placehold.co/960x600/F5F2EC/BC5B37?font=raleway&text=Music+Platform",
-    "coverImage": "https://placehold.co/1600x800/F5F2EC/BC5B37?font=raleway&text=Music+Platform",
-    "summary": [
-      "My internship at bld.ai split across two products: backend work on a music platform and frontend work on a Udemy-style learning clone.",
-      "The backend work was where I learned to think in schemas and permissions before writing endpoints."
-    ],
-    "decisions": [
-      "<strong>Schema first.</strong> Designed the database model for users, tracks and playlists before touching the API — relationships and constraints decided up front rather than discovered later.",
-      "<strong>Tests for auth and RBAC.</strong> Authentication and role-based access control are where silent bugs hurt most, so they got Pytest coverage from the start.",
-      "<strong>Django REST Framework for the API layer.</strong> Serializers and viewsets kept the endpoint surface consistent and reviewable.",
-      "<strong>Frontend work on a Udemy clone.</strong> Built ReactJS features for a separate learning product, which gave me both sides of the API contract."
-    ],
-    "architecture": "Django and Django REST Framework serve the music platform API, with a relational schema covering users, tracks and playlists. Pytest covers authentication and role-based access control. A separate ReactJS frontend serves the Udemy-style learning product.",
-    "screenshots": [
-      {
-        "label": "API endpoint map",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=API+endpoint+map"
-      },
-      {
-        "label": "Data schema — users, tracks, playlists",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Data+schema"
-      },
-      {
-        "label": "Pytest coverage for auth",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=Pytest+coverage+for+auth"
-      },
-      {
-        "label": "ReactJS learning UI",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
-      },
-      {
-        "label": "Pytest coverage for auth",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
-      },
-      {
-        "label": "Data schema — users, tracks, playlists",
-        "src": "https://placehold.co/800x600/F5F2EC/17160F?font=raleway&text=ReactJS+learning+UI"
-      }
-    ],
-    "stack": [
-      {
-        "label": "Backend",
-        "items": [
-          "Django",
-          "Django REST Framework"
-        ]
-      },
-      {
-        "label": "Frontend",
-        "items": [
-          "ReactJS"
-        ]
-      },
-      {
-        "label": "Testing",
-        "items": [
-          "Pytest"
         ]
       }
     ],
